@@ -1,0 +1,9 @@
+# {{ ansible_managed }}
+
+LoadPlugin network
+
+<Plugin network>
+{% for (key, value) in collectd_extra_plugins_network.iteritems() %}
+  {{ key }} "{{ value }}"
+{% endfor %}
+</Plugin>

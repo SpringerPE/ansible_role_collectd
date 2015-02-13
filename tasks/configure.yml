@@ -1,0 +1,32 @@
+---
+- name: Enabling default configuration 
+  template: 
+        src=collectd.conf.j2
+        dest={{ COLLECTD_CONF }}
+        backup=yes
+        owner=root
+        group=root
+        mode=0644
+  notify:
+        - restart collectd
+  tags:
+        - collectd_configure
+
+- name: Create collectd plugin directory
+  file: path={{ COLLECTD_CONF_DIR }} state=directory
+
+- name: Create extra plugins configuration files
+  template:
+        src="plugins/{{ item }}.conf.j2" 
+        dest="{{ COLLECTD_CONF_DIR }}/{{ item }}.conf"
+        validate="collectd -t -C %s"
+        owner=root
+        group=root
+        mode=0644
+  with_items: collectd_extra_plugins
+  when: collectd_extra_plugins
+  notify:
+        - restart collectd
+  tags:
+        - collectd_configure
+

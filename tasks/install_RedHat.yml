@@ -1,0 +1,15 @@
+---
+- name: Enable EPEL repositories
+  command: rpm -Uvh --replacepkgs {{ item.repo }}
+  with_items: COLLECTD_REPOS
+  when: COLLECTD_REPOS
+  tags:
+         - collectd_addrepo
+
+- name: Install RPM packages
+  yum: name={{ item.package }} state=latest
+  with_items: COLLECTD_PACKAGES
+  when: COLLECTD_PACKAGES
+  tags:
+         - collectd_install
+

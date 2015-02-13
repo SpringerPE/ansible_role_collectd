@@ -1,0 +1,59 @@
+# {{ ansible_managed }}
+
+{% if collectd_global is defined %}
+##############################################################################
+# Global                                                                     #
+#----------------------------------------------------------------------------#
+# Global settings for the daemon.                                            #
+##############################################################################
+{% for (key, value) in collectd_global.iteritems() %}
+  {{ key }} {{ value }}
+{% endfor %}
+{% endif %}
+
+{% if collectd_logging is defined %}
+##############################################################################
+# Logging                                                                    #
+#----------------------------------------------------------------------------#
+# Plugins which provide logging functions should be loaded first, so log     #
+# messages generated when loading or configuring other plugins can be        #
+# accessed.                                                                  #
+##############################################################################
+{% for (key, options) in collectd_logging.iteritems() %}
+LoadPlugin {{ key }}
+{% if options %}
+<Plugin "{{ key }}">
+{% for (opt, value) in options.iteritems() %}
+  {{ opt }} "{{ value }}"
+{% endfor %}
+</Plugin>
+{% endif %}
+{% endfor %}
+{% endif %}
+
+{% if collectd_plugins is defined %}
+##############################################################################
+# LoadPlugin section                                                         #
+#----------------------------------------------------------------------------#
+# Lines beginning with a single `#' belong to plugins which have been built  #
+# but are disabled by default.                                               #
+#                                                                            #
+# Lines begnning with `##' belong to plugins which have not been built due   #
+# to missing dependencies or because they have been deactivated explicitly.  #
+##############################################################################
+{% for (key, options) in collectd_plugins.iteritems() %}
+LoadPlugin {{ key }}
+{% if options %}
+<Plugin "{{ key }}">
+{% for (opt, value) in options.iteritems() %}
+  {{ opt }} "{{ value }}"
+{% endfor %}
+</Plugin>
+{% endif %}
+{% endfor %}
+{% endif %}
+
+<Include "{{ COLLECTD_CONF_DIR }}">
+  Filter "*.conf"
+</Include>
+

@@ -1,0 +1,9 @@
+# {{ ansible_managed }}
+
+LoadPlugin memcached
+
+<Plugin "memcached">
+{% for (key, value) in collectd_extra_plugins_memcached.iteritems() %}
+  {{ key }} "{{ value }}"
+{% endfor %}
+</Plugin>

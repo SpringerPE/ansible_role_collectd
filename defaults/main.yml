@@ -1,0 +1,65 @@
+---
+# OS dependencies, see vars
+COLLECTD_REPOS:
+COLLECTD_PACKAGES:
+COLLECTD_CONF: "/etc/collectd/collectd.conf"
+COLLECTD_CONF_DIR : "/etc/collectd/conf.d"
+
+collectd_global:
+  AutoLoadPlugin: "false"
+  ReadThreads: "{{ collectd_readthreads | default(5) }}"
+  Interval: "{{ collectd_interval | default(10) }}"
+  Timeout: "{{ collectd_timeout | default(2) }}"
+  FQDNLookup: "true"
+  Hostname: "{{ ansible_fqdn }}"
+
+collectd_logging:
+  syslog:
+    LogLevel: "info"
+
+collectd_plugins:
+  cpu:
+  df:
+  disk:
+  interface:
+  load:
+  memory:
+  exec:
+  nfs:
+  swap:
+    ReportByDevice: "false"
+  vmem:
+    Verbose: "false"
+
+
+collectd_extra_plugins:
+#  - write_graphite
+#  - network
+#  - nginx
+#  - memcached
+#  - mysql
+#  - tcpconns
+
+collectd_extra_plugins_network:
+  Server: "{{ collectd_extra_plugins_network_server }} {{ collectd_extra_plugins_network_port }}"
+  ReportStats: false
+
+collectd_extra_plugins_write_graphite:
+  Host: "{{ collectd_extra_plugins_write_graphite_server }}"
+  Port: "{{ collectd_extra_plugins_write_graphite_port }}"
+  Protocol: "{{ collectd_extra_plugins_write_graphite_proto }}"
+  Prefix: "{{ collectd_extra_plugins_write_graphite_prefix }}"
+
+collectd_extra_plugins_memcached:
+  Host: "{{ collectd_extra_plugins_memcached_host | default(127.0.0.1) }}"
+  Port: "{{ collectd_extra_plugins_memcached_port | default(11211) }}"
+
+collectd_extra_plugins_nginx:
+  URL: "{{ collectd_extra_plugins_nginx_url | default(http://127.0.0.1/nginx_status) }}"
+
+collectd_extra_plugins_tcpconns:
+  ListeningPorts: "false"
+  LocalPort: "{{ collectd_extra_plugins_tcpconns_localport }}"
+  RemotePort: "{{ collectd_extra_plugins_tcpconns_remoteport }}"
+
+

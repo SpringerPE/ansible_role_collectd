@@ -1,0 +1,27 @@
+---
+# tasks file for ansible-collectd
+
+# Controlling if the plugin is supported
+- fail: msg="collectd role is not supported on this system"
+  when: ansible_distribution != 'Ubuntu' and ansible_distribution != 'CentOS' and ansible_distribution == 'Debian' and ansible_distribution == 'Red Hat Enterprise Linux'
+
+# Specific variables
+- name: Loading the OS specific variables
+  include_vars: "{{ item | basename }}"
+  with_first_found:
+    - files:
+        - "{{ ansible_os_family }}_{{ ansible_distribution_version | int }}.yml"
+        - "{{ ansible_os_family }}.yml"
+      paths:
+        - "../vars"
+        - "."
+
+# Install packages
+- name: Installing packages
+  include: "install.yml"
+
+# Setup
+- name: Configuring
+  include: "configure.yml"
+
+

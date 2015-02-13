@@ -1,0 +1,27 @@
+# {{ ansible_managed }}
+
+LoadPlugin mysql
+ 
+<Plugin "mysql">
+{% for db in collectd_extra_plugins_mysql %}
+    <Database "{{ db.database }}">
+        Database "{{ db.database }}"
+        User "{{ db.user }}"
+        Password "{{ db.password }}"
+{% if ansible_os_family == "Debian" %}
+        Socket "/var/run/mysqld/mysqld.sock"
+{% else %}
+        Socket "/var/lib/mysql/mysql.sock"
+{% endif %}
+
+{% if db.masterslave %}
+    {% if db.dbmaster is defined %}
+	MasterStats true
+    {% else %}
+        SlaveNotifications true
+        SlaveStats true
+    {% endif %}
+{% endif %}
+    </Database>
+{% endfor %}
+</Plugin>

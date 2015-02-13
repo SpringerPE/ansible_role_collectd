@@ -1,0 +1,14 @@
+---
+# handlers file for collectd
+
+- name: restart collectd
+  service: name=collectd state=restarted enabled=yes
+
+- name: stop collectd
+  service: name=collectd state=stopped enabled=yes
+
+- name: start collectd
+  service: name=collectd state=started enabled=yes
+
+- name: disable collectd
+  service: name=collectd state=stopped enabled=no

@@ -1,0 +1,12 @@
+COLLECTD_REPOS:
+ - repo: "deb http://archive.ubuntu.com/ubuntu {{ ansible_distribution_release }} universe"
+ - repo: "deb http://archive.ubuntu.com/ubuntu {{ ansible_distribution_release }}-updates universe"
+
+COLLECTD_PACKAGES:
+ - package: "collectd"
+ - package: "collectd-utils"
+
+COLLECTD_CONF: "/etc/collectd/collectd.conf"
+COLLECTD_CONF_DIR : "/etc/collectd/collectd.conf.d"
+
+

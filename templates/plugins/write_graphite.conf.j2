@@ -1,0 +1,11 @@
+# {{ ansible_managed }}
+
+LoadPlugin write_graphite
+
+<Plugin write_graphite>
+  <Carbon>
+{% for (key, value) in collectd_extra_plugins_write_graphite.iteritems() %}
+  {{ key }} "{{ value }}"
+{% endfor %}
+  </Carbon>
+</Plugin>

@@ -1,0 +1,10 @@
+# {{ ansible_managed }}
+
+LoadPlugin tcpconns
+
+<Plugin tcpconns>
+{% for (key, value) in collectd_extra_plugins_tcpconns.iteritems() %}
+  {{ key }} "{{ value }}"
+{% endfor %}
+</Plugin>
+ 

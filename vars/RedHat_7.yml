@@ -1,0 +1,10 @@
+COLLECTD_REPOS:
+ - repo: "http://dl.fedoraproject.org/pub/epel/7/x86_64/epel-release-7-5.noarch.rpm"
+
+COLLECTD_PACKAGES:
+ - package: "collectd"
+ - package: "libselinux-python"
+
+COLLECTD_CONF: "/etc/collectd.conf"
+COLLECTD_CONF_DIR : "/etc/collectd.d"
+

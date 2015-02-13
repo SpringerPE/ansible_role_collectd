@@ -1,0 +1,33 @@
+---
+# vars file for collectd
+
+collectd_extra_plugins:
+#  - write_graphite
+#  - network
+#  - nginx
+#  - memcached
+#  - mysql
+#  - tcpconns
+
+collectd_extra_plugins_network_server:
+collectd_extra_plugins_network_port:
+
+collectd_extra_plugins_write_graphite_server:
+collectd_extra_plugins_write_graphite_port:
+collectd_extra_plugins_write_graphite_proto:
+collectd_extra_plugins_write_graphite_prefix:
+
+collectd_extra_plugins_memcached_host:
+collectd_extra_plugins_memcached_port:
+
+collectd_extra_plugins_nginx_url:
+
+collectd_extra_plugins_tcpconns_localport:
+collectd_extra_plugins_tcpconns_remoteport:
+
+collectd_extra_plugins_mysql:
+  - database: "database"
+    user: "user"
+    password: "password"
+    masterslave: false    # We have a slave/master setup
+    dbmaster: false       # This host is a master
